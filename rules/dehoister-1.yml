@@ -1,0 +1,10 @@
+rank: 2
+name: dehoister-1
+run-every: 15 minutes
+event: [on-user-join, manual, periodic]
+if:
+  - username-matches-any: ["!*"]
+  - if-not: # Ignore people who already have a nickname
+      - nickname-matches-any: ["*"]
+do:
+  - set-user-nickname: "No hoisting"

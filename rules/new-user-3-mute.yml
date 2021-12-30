@@ -1,0 +1,16 @@
+rank: 2
+name: mute-on-repeated-delete
+event: [on-message, on-message-edit]
+priority: 2 # Rule 1 and 2 will be run first
+if:
+  - custom-heat-is: ["new-user-spam-$user_id", 3]
+do:
+  - empty-custom-heat: "new-user-spam-$user_id"
+  - punish-user-with-message:
+  - notify-staff:
+      title: "Muted user"
+      content: "I have muted a user for repeatedly posting attachments and / or media links."
+      add_ctx_fields: true
+      jump_to_ctx_message: true
+      qa_target: $user_id
+      qa_reason: "Spamming rule breaking content"

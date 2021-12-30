@@ -1,0 +1,19 @@
+rank: 2
+name: nitro-scam
+event: [on-message, on-message-edit]
+if:
+  - message-matches-any: ["*nitro*", "*gift*", "*@everyone*"]
+  - message-contains-url: true
+  - user-has-sent-less-than-messages: 5
+do:
+  - punish-user-with-message:
+  - delete-user-message:
+  - notify-staff:
+      title: "Possible nitro scam attempt"
+      content: "I have muted a user for posting this message\n```$message```"
+      add_ctx_fields: true
+      jump_to_ctx_message: true
+      no_repeat_for: 10 seconds
+      no_repeat_key: $rule_name-$user_id
+      qa_target: $user_id
+      qa_reason: "Nitro scam bot"

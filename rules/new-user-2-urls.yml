@@ -1,0 +1,21 @@
+rank: 4
+name: new-user-2-urls
+event: [on-message, on-message-edit]
+priority: 1
+if:
+  - message-contains-url: true
+  - channel-matches-any: [general, testing]
+do:
+  - add-custom-heatpoint: ["new-user-spam-$user_id", 5 minutes]
+  - delete-user-message:
+  - notify-staff:
+      title: "Deleted message from new user"
+      content: "I have deleted a new user's message for containing a link\nContent:\n```$message```"
+      add_ctx_fields: true
+      jump_to_ctx_message: true
+      no_repeat_for: 10 seconds
+      no_repeat_key: $rule_name-$user_id
+      qa_target: $user_id
+      qa_reason: "Rule breaking content"
+  - send-message: [$channel_id, "$user_mention Sorry, you are not allowed to post links at this time."]
+  - delete-last-message-sent-after: 15 seconds

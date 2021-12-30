@@ -1,0 +1,10 @@
+rank: 2
+name: dehoister-2
+run-every: 15 minutes
+event: periodic
+if:
+  - nickname-matches-any: ["No hoisting"]
+  - if-not: # No longer hoisting?
+      - username-matches-any: ["!*"]
+do:
+  - set-user-nickname: "" # Resets the nickname
