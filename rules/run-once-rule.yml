@@ -1,0 +1,10 @@
+rank: 1
+name: run-once-rule
+run-every: 15 minutes
+event: periodic
+if:
+  # Periodic rules are ran against a server's entire userbase. Without this condition, which can possibly
+  # be 'true' only once since IDs are unique, the rule would run more than once every 15 minutes
+  - user-id-matches-any: [<SERVER_OWNER_ID>] # Or any other ID that is guaranteed to never leave
+do:
+  - send-to-monitor: "I'm going to show up in the monitor every 15 minutes!"

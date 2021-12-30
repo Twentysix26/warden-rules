@@ -1,0 +1,16 @@
+# When you have some cleanup to do an ad-hoc manual Warden rule is extremely useful
+# Find common patterns that your raiders share and pick appropriate conditions to
+# minimize the risk of catching innocent joiners
+# Needless to say, this is also very useful if you're in the process of getting raided
+rank: 4 # if they spammed messages you will want at least rank 3
+name: post-raid-cleanup
+event: manual # Meant to be run with [p]def warden run
+if:
+  # They are new Discord accounts?
+  - user-created-less-than: 48 hours
+  # All their names share a pattern? e.g. "bot2626 | wardenrulez.us"
+  - username-matches-any: ["* | wardenrulez.us"]
+  # They didn't bother to set a profile picture?
+  - user-has-default-avatar: true
+do:
+  - ban-user-and-delete: 0 # or 1 if they have spammed messages
