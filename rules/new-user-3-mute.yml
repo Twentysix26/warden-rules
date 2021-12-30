@@ -12,5 +12,5 @@ do:
       content: "I have muted a user for repeatedly posting attachments and / or media links."
       add_ctx_fields: true
       jump_to_ctx_message: true
-      qa_target: $user_id
+      qa_target: $user_id # Enables "quick actions" for this rule. See the docs
       qa_reason: "Spamming rule breaking content"

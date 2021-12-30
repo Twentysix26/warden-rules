@@ -2,9 +2,10 @@ rank: 2
 name: nitro-scam
 event: [on-message, on-message-edit]
 if:
+  # While it may seem overly aggressive to detect just the mention, a good 95% of those bots tries to mention @everyone
   - message-matches-any: ["*nitro*", "*gift*", "*@everyone*"]
   - message-contains-url: true
-  - user-has-sent-less-than-messages: 5
+  - user-has-sent-less-than-messages: 5 # little to no previous activity in the server
 do:
   - punish-user-with-message:
   - delete-user-message:

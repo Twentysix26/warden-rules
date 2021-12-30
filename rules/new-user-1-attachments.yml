@@ -4,7 +4,7 @@ event: [on-message, on-message-edit]
 priority: 1
 if:
   - message-has-attachment: true
-  - channel-matches-any: [general, testing]
+  - channel-matches-any: [<CHANNEL_NAME_OR_ID1>, <CHANNEL_NAME_OR_ID2>] # Only for some channels?
 do:
   - add-custom-heatpoint: ["new-user-spam-$user_id", 5 minutes]
   - delete-user-message:
@@ -14,8 +14,8 @@ do:
       add_ctx_fields: true
       jump_to_ctx_message: true
       no_repeat_for: 10 seconds
-      no_repeat_key: $rule_name-$user_id
-      qa_target: $user_id
+      no_repeat_key: $rule_name-$user_id # This ensures that our notif. channel won't be spammed by this rule
+      qa_target: $user_id # Enables "quick actions" for this rule. See the docs
       qa_reason: "Rule breaking content"
   - send-message: [$channel_id, "$user_mention Sorry, you are not allowed to post attachments at this time."]
   - delete-last-message-sent-after: 15 seconds
