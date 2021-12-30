@@ -1,5 +1,5 @@
 rank: 2
-name: mute-on-repeated-delete
+name: new-user-3-mute
 event: [on-message, on-message-edit]
 priority: 2 # Rule 1 and 2 will be run first
 if:
