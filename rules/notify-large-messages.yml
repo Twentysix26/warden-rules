@@ -1,0 +1,50 @@
+# Notify Staff about large messages posted in certain areas
+# Support for multiple variables in specific category
+name: notify-large-message
+rank: 2
+event: [on-message] # on-message-edit not added to prevent embed spam when message is repeatedly edited.
+if:
+  - message-matches-any: ["*"]
+do: 
+  - if-all:
+    - category-matches-any: [<CATEGORY_ID>] # Specify that all channels within a category have this limit.
+    #- channel-matches-any: [<CHANNEL_ID>] # Optional channel specific limit
+    - message-has-more-than-characters: 500
+  - if-true:
+    - notify-staff:
+        content: "Jump to message to review" # It is suggested to not output the message to prevent overly large embeds
+        #content: "```$message_clean```" # Optional output message into description (content)
+        title: "Large Message in Category <CATEGORY>"
+        add_ctx_fields: true
+        footer_text: "Warden System" 
+        jump_to:
+          channel_id: "$channel_id"
+          message_id: "$message_id"
+        qa_target: $user_id
+        qa_reason: Punished!
+        no_repeat_for: 30 seconds
+        no_repeat_key: $rule_name-$user_id
+        ping: false
+        allow_everyone_ping: false
+    - exit:
+  - if-all:
+    - category-matches-any: [<CATEGORY_ID>] 
+    #- channel-matches-any: [<CHANNEL_ID>]
+    - message-has-more-than-characters: 1000 # Larger limit, example of differing conditions for other categories.
+  - if-true:
+    - notify-staff:
+        content: "Jump to message to review"
+        #content: "```$message_clean```"
+        title: "Large Message in Category <CATEGORY>"
+        add_ctx_fields: true
+        footer_text: "Warden System" 
+        jump_to:
+          channel_id: "$channel_id"
+          message_id: "$message_id"
+        qa_target: $user_id
+        qa_reason: Punished!
+        no_repeat_for: 30 seconds
+        no_repeat_key: $rule_name-$user_id
+        ping: false
+        allow_everyone_ping: false
+    - exit:
