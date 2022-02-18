@@ -1,0 +1,18 @@
+# Notify Staff about members with a certain role leaving, useful for Staff or Muted ranks.
+name: notify-role-leave
+rank: 1
+priority: 2
+event: [on-user-leave]
+if:
+  - user-has-any-role-in: [<ROLE_ID>]
+do:
+  - notify-staff:
+      content: "User with role <ROLE> left"
+      title: "<ROLE> Member Left"
+      add_ctx_fields: true
+      footer_text: "Warden System" 
+      qa_target: $user_id
+      qa_reason: Punished!
+      no_repeat_for: 60 seconds
+      no_repeat_key: $rule_name-$user_id
+      ping: false
